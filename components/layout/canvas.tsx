@@ -6,8 +6,11 @@ const LCanvas = ({ children }: { children: ReactNode }) => {
   return (
     <Canvas
       style={{
-        position: 'absolute',
+        position: 'fixed',
+        padding: 0,
+        margin: 0,
         top: 0,
+        left: 0
       }}
     >
       <OrbitControls />

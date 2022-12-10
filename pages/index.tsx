@@ -1,32 +1,38 @@
+import type { NextPage } from 'next'
 import Head from 'next/head'
 import React from 'react'
 import dynamic from 'next/dynamic'
+import LoginForm from '../components/LoginForm'
 import AstronomicalObject from '../components/canvas/AstronomicalObject'
-import Dom from '../components/layout/dom'
-import BasicSpeedDial from '../components/dom/BasicSpeedDial'
+import UI from '../components/layout/ui'
 //import Player from '../components/canvas/Player'
+import useUser from '../lib/useUser'
 
 const LCanvas = dynamic(() => import('../components/layout/canvas'), {
   ssr: false,
 })
 
-export default function Page() {
-  return (
-    <>
-      <Head>
-        <title>Blueprint</title>
-      </Head>
+const Home: NextPage = () => {
+  const { user } = useUser()
 
-      <Dom>
-        <BasicSpeedDial />
-      </Dom>
+  return <>
+    <Head>
+      <title>Blueprint</title>
+    </Head>
 
-      <LCanvas>
-        <ambientLight />
-        <pointLight position={[10, 10, 10]} />
-        <AstronomicalObject />
-        {/*<Player />*/}
-      </LCanvas>
-    </>
-  )
+    {user?.isLoggedIn
+      ? <>
+        <UI />
+
+        <LCanvas>
+          <ambientLight />
+          <pointLight position={[10, 10, 10]} />
+          <AstronomicalObject />
+          {/*<Player />*/}
+        </LCanvas>
+      </>
+      : <LoginForm />}
+  </>
 }
+
+export default Home
